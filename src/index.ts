@@ -3,12 +3,19 @@ import { startStandaloneServer } from '@apollo/server/standalone';
 import prisma from './prisma/client';
 import { findOrCreateUser } from './data/user';
 
+
+
+// i need to start learning about authentication to compare values, hash passwords, and generate tokens 
+// the docs right here look promising for auth -> https://www.apollographql.com/docs/react/networking/authentication
+
+
+
 const typeDefs = `#graphql
     type Mutation {
-        findOrCreateUser(emailInput: UserData!): User
+        findOrCreateUser(emailInput: EmailInput!): User
     }
 
-    input UserData {
+    input EmailInput {
         email: String
     }
 

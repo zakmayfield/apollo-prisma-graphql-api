@@ -9,7 +9,9 @@ export const findOrCreateUser = async (
   const email = args.emailInput.email;
   const user = await prisma.user.upsert({
     where: { email },
-    create: { email },
+    create: { 
+        email
+     },
     update: { email },
   });
 

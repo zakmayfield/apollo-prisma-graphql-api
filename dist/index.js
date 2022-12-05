@@ -5,10 +5,10 @@ const standalone_1 = require("@apollo/server/standalone");
 const user_1 = require("./data/user");
 const typeDefs = `#graphql
     type Mutation {
-        findOrCreateUser(emailInput: UserData!): User
+        findOrCreateUser(emailInput: EmailInput!): User
     }
 
-    input UserData {
+    input EmailInput {
         email: String
     }
 
