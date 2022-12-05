@@ -1,6 +1,5 @@
 import { ApolloServer } from '@apollo/server';
 import { startStandaloneServer } from '@apollo/server/standalone';
-import prisma from './prisma/client';
 import { findOrCreateUser } from './data/user';
 
 // i need to start learning about authentication to compare values, hash passwords, and generate tokens
