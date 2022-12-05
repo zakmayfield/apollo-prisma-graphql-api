@@ -7,6 +7,7 @@ import { findOrCreateUser } from './data/user';
 
 const typeDefs = `#graphql
     type Mutation {
+                                 #does this actually return full User details?
         findOrCreateUser(emailInput: EmailInput!): User
     }
 
