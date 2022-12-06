@@ -7,9 +7,6 @@ import { resolvers } from './server/resolvers';
 
 dotenv.config()
 
-// i need to start learning about authentication to compare values, hash passwords, and generate tokens
-// the docs right here look promising for auth -> https://www.apollographql.com/docs/react/networking/authentication
-
 interface ServerContext {
   user: UserInterface;
 }
@@ -37,15 +34,3 @@ const startServer = async () => {
 };
 
 startServer();
-
-// const startServer = async () => {
-//   const { url } = await startStandaloneServer(server, {
-//     listen: {
-//       port: 4000,
-//     }
-//   });
-
-//   console.log(`🚀 Server running on ___ ${url} ___`);
-// };
-
-// startServer();
