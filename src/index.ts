@@ -1,3 +1,4 @@
+import { UserInterface } from './types';
 import { ApolloServer } from '@apollo/server';
 import { startStandaloneServer } from '@apollo/server/standalone';
 import { typeDefs } from './server/schema';
@@ -7,26 +8,19 @@ import { resolvers } from './server/resolvers';
 // the docs right here look promising for auth -> https://www.apollographql.com/docs/react/networking/authentication
 
 interface ServerContext {
-  authScope?: String;
+  user: UserInterface
 }
 
-const server = new ApolloServer<ServerContext>({
+const server = new ApolloServer({
   typeDefs,
-  resolvers,
+  resolvers
 });
 
 const startServer = async () => {
   const { url } = await startStandaloneServer(server, {
     listen: {
       port: 4000,
-    },
-    context: async ({ req, res }) => ({
-      authScope: `${
-        req.headers.authorization
-          ? `auth: ${req.headers.authorization}`
-          : `no auth`
-      }`,
-    }),
+    }
   });
 
   console.log(`🚀 Server running on ___ ${url} ___`);
