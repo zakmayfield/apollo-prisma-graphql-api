@@ -48,12 +48,3 @@ const startServer = async () => {
     console.log(`🚀 Server running on ___ localhost:4000 ___`);
 };
 startServer();
-// const startServer = async () => {
-//   const { url } = await startStandaloneServer(server, {
-//     listen: {
-//       port: 4000,
-//     }
-//   });
-//   console.log(`🚀 Server running on ___ ${url} ___`);
-// };
-// startServer();

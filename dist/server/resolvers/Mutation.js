@@ -28,12 +28,15 @@ exports.Mutation = {
                 expiresIn: '2d',
             }),
         };
+        context.user.token = validUser.token;
+        console.log('CONTEXT :::', context);
         return validUser;
     },
     signupUser: async (parent, args, context) => {
         const { input } = args;
         const email = input.email;
-        const password = await bcrypt_1.default.hash(input.password, 10);
+        const salt = await bcrypt_1.default.genSalt(10);
+        const hashedPassword = await bcrypt_1.default.hash(input.password, salt);
         let user = await client_1.default.user.findUnique({
             where: {
                 email,
@@ -45,7 +48,7 @@ exports.Mutation = {
         const createdUser = await client_1.default.user.create({
             data: {
                 email,
-                password,
+                password: hashedPassword,
             },
         });
         const validUser = {

@@ -36,12 +36,18 @@ export const Mutation = {
       }),
     };
 
+    context.user.token = validUser.token
+
+    console.log('CONTEXT :::', context)
+
     return validUser
   },
   signupUser: async (parent, args: InitUserArgs, context) => {
     const { input } = args;
-    const email = input.email;
-    const password = await bcrypt.hash(input.password, 10);
+    const email = input.email
+    
+    const salt = await bcrypt.genSalt(10)
+    const hashedPassword = await bcrypt.hash(input.password, salt);
 
     let user = await prisma.user.findUnique({
       where: {
@@ -56,7 +62,7 @@ export const Mutation = {
     const createdUser = await prisma.user.create({
       data: {
         email,
-        password,
+        password: hashedPassword,
       },
     });
 
