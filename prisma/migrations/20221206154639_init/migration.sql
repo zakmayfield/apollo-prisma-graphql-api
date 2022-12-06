@@ -4,6 +4,7 @@ CREATE TABLE "User" (
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "email" TEXT NOT NULL,
+    "password" TEXT NOT NULL,
     "token" TEXT,
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")

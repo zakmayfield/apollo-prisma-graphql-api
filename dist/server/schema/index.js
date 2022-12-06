@@ -3,13 +3,20 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.typeDefs = void 0;
 exports.typeDefs = `#graphql
     type Mutation {
-                                 #does this actually return full User details?
-        findOrCreateUser(emailInput: EmailInput!): User
+        #findOrCreateUser(emailInput: EmailInput!): User,
+        loginUser(input: InitUserInput!): User
+        signupUser(input: InitUserInput!): User
+    }
+
+    input InitUserInput {
+        email: String!
+        password: String!
     }
 
     input EmailInput {
         email: String
     }
+
 
 
     type Query {
@@ -21,6 +28,7 @@ exports.typeDefs = `#graphql
         createdAt: String
         updatedAt: String
         email: String!
+        password: String!
         token: String
     }
 `;
