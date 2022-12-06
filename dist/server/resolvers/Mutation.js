@@ -8,6 +8,7 @@ const client_1 = __importDefault(require("../../prisma/client"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const { APP_SECRET } = process.env;
+const generateToken = (id) => jsonwebtoken_1.default.sign({ userId: id }, APP_SECRET, { expiresIn: '2d' });
 exports.Mutation = {
     loginUser: async (parent, args, context) => {
         const { input } = args;
@@ -24,12 +25,13 @@ exports.Mutation = {
             throw new Error(`🚫 Invalid Password`);
         const validUser = {
             ...user,
-            token: jsonwebtoken_1.default.sign({ userId: user.id }, APP_SECRET, {
-                expiresIn: '2d',
-            }),
+            token: generateToken(user.id),
         };
+        console.log(typeof user.id);
+        // this will need to be looked into
+        // regarding the context of the server apollo
+        // need to figure out types and
         context.user.token = validUser.token;
-        console.log('CONTEXT :::', context);
         return validUser;
     },
     signupUser: async (parent, args, context) => {
@@ -53,9 +55,7 @@ exports.Mutation = {
         });
         const validUser = {
             ...createdUser,
-            token: jsonwebtoken_1.default.sign({ userId: createdUser.id }, APP_SECRET, {
-                expiresIn: '2d',
-            }),
+            token: generateToken(createdUser.id),
         };
         return validUser;
     },

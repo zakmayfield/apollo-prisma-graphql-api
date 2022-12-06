@@ -11,6 +11,9 @@ interface InitUserArgs {
   };
 }
 
+const generateToken = (id: number) =>
+  jwt.sign({ userId: id }, APP_SECRET, { expiresIn: '2d' });
+
 export const Mutation = {
   loginUser: async (parent, args: InitUserArgs, context) => {
     const { input } = args;
@@ -25,28 +28,27 @@ export const Mutation = {
       throw new Error(`🚫 EMAIL DOES NOT EXIST :::`);
     }
 
-    const valid = await bcrypt.compare(input.password, user.password)
+    const valid = await bcrypt.compare(input.password, user.password);
 
-    if (!valid) throw new Error(`🚫 Invalid Password`)
+    if (!valid) throw new Error(`🚫 Invalid Password`);
 
     const validUser = {
       ...user,
-      token: jwt.sign({ userId: user.id }, APP_SECRET, {
-        expiresIn: '2d',
-      }),
+      token: generateToken(user.id),
     };
 
-    context.user.token = validUser.token
+    // this will need to be looked into
+    // regarding the context of the server apollo
+    // need to figure out types and
+    context.user.token = validUser.token;
 
-    console.log('CONTEXT :::', context)
-
-    return validUser
+    return validUser;
   },
   signupUser: async (parent, args: InitUserArgs, context) => {
     const { input } = args;
-    const email = input.email
-    
-    const salt = await bcrypt.genSalt(10)
+    const email = input.email;
+
+    const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(input.password, salt);
 
     let user = await prisma.user.findUnique({
@@ -68,9 +70,7 @@ export const Mutation = {
 
     const validUser = {
       ...createdUser,
-      token: jwt.sign({ userId: createdUser.id }, APP_SECRET, {
-        expiresIn: '2d',
-      }),
+      token: generateToken(createdUser.id),
     };
 
     return validUser;
