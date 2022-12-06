@@ -1,56 +1,16 @@
 import { ApolloServer } from '@apollo/server';
 import { startStandaloneServer } from '@apollo/server/standalone';
-import { findOrCreateUser } from './data/user';
+import { typeDefs } from './server/schema';
+import { resolvers } from './server/resolvers';
 
 // i need to start learning about authentication to compare values, hash passwords, and generate tokens
 // the docs right here look promising for auth -> https://www.apollographql.com/docs/react/networking/authentication
 
-const typeDefs = `#graphql
-    type Mutation {
-                                 #does this actually return full User details?
-        findOrCreateUser(emailInput: EmailInput!): User
-    }
+interface ServerContext {
+  authScope?: String;
+}
 
-    input EmailInput {
-        email: String
-    }
-
-
-    type Query {
-        test: String
-    }
-
-    type User {
-        id: ID!
-        createdAt: String
-        updatedAt: String
-        email: String!
-        token: String
-    }
-`;
-
-const resolvers = {
-  Query: {
-    test: () => 'test',
-  },
-  Mutation: {
-    // i figured out this issue with the mutation
-    // the schema i had defined for 'args' was missing the emailInput from apollo
-    // i created a more complex arg type to compensate and now it works
-    findOrCreateUser: (
-      _parent,
-      args: {
-        emailInput: {
-          email: string;
-        };
-      }
-    ) => {
-      return findOrCreateUser(args);
-    },
-  },
-};
-
-const server = new ApolloServer({
+const server = new ApolloServer<ServerContext>({
   typeDefs,
   resolvers,
 });
@@ -60,6 +20,13 @@ const startServer = async () => {
     listen: {
       port: 4000,
     },
+    context: async ({ req, res }) => ({
+      authScope: `${
+        req.headers.authorization
+          ? `auth: ${req.headers.authorization}`
+          : `no auth`
+      }`,
+    }),
   });
 
   console.log(`🚀 Server running on ___ ${url} ___`);
