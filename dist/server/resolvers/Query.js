@@ -12,5 +12,6 @@ exports.Query = {
             throw new Error('🚫 NO USERS FOUND :::');
         }
         return users;
-    }
+    },
+    test: () => 'test'
 };

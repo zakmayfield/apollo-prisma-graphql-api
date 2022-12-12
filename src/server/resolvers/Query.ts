@@ -9,5 +9,7 @@ export const Query = {
     }
 
     return users
-  }
+  },
+
+  test: () => 'test'
 };

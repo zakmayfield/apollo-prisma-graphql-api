@@ -21,6 +21,7 @@ exports.typeDefs = `#graphql
 
     type Query {
         allUsers: [User!]!
+        test: String!
     }
 
     type User {
