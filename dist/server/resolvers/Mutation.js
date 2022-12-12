@@ -27,7 +27,6 @@ exports.Mutation = {
             ...user,
             token: generateToken(user.id),
         };
-        console.log(typeof user.id);
         // this will need to be looked into
         // regarding the context of the server apollo
         // need to figure out types and
