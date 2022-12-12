@@ -1,21 +1,16 @@
 import prisma from '../../prisma/client';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import { LoginUserInput, RegisterUserInput } from '../../types';
 
 const { APP_SECRET } = process.env;
 
-interface InitUserArgs {
-  input: {
-    email: string;
-    password: string;
-  };
-}
 
 const generateToken = (id: number) =>
   jwt.sign({ userId: id }, APP_SECRET, { expiresIn: '2d' });
 
 export const Mutation = {
-  loginUser: async (parent, args: InitUserArgs, context) => {
+  loginUser: async (parent, args: LoginUserInput, context) => {
     const { input } = args;
 
     const user = await prisma.user.findUnique({
@@ -44,7 +39,7 @@ export const Mutation = {
 
     return validUser;
   },
-  signupUser: async (parent, args: InitUserArgs, context) => {
+  signupUser: async (parent, args: RegisterUserInput, context) => {
     const { input } = args;
     const email = input.email;
 

@@ -5,3 +5,17 @@ export interface UserInterface {
     email: string;
     token: string;
 }
+
+export interface LoginUserInput {
+  input: {
+    email: string;
+    password: string;
+  };
+}
+
+export interface RegisterUserInput {
+  input: {
+    email: string;
+    password: string;
+  };
+}
