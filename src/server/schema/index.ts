@@ -17,7 +17,7 @@ export const typeDefs = `#graphql
 
 
     type Query {
-        test: String
+        allUsers: [User!]!
     }
 
     type User {

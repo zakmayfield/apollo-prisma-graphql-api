@@ -1,3 +1,13 @@
+import prisma from '../../prisma/client';
+
 export const Query = {
-  test: () => 'test',
+  allUsers: async () => {
+    const users = await prisma.user.findMany()
+
+    if (!users) {
+      throw new Error('🚫 NO USERS FOUND :::')
+    }
+
+    return users
+  }
 };
