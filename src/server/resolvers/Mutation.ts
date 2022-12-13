@@ -2,9 +2,9 @@ import prisma from '../../prisma/client';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { LoginUserInput, RegisterUserInput } from '../../types';
+import {  } from '@apollo/server/errors';
 
 const { APP_SECRET } = process.env;
-
 
 const generateToken = (id: number) =>
   jwt.sign({ userId: id }, APP_SECRET, { expiresIn: '2d' });

@@ -1,11 +1,21 @@
 export const typeDefs = `#graphql
     type Mutation {
         #findOrCreateUser(emailInput: EmailInput!): User,
-        loginUser(input: InitUserInput!): User
-        signupUser(input: InitUserInput!): User
+        loginUser(input: LoginUserInput!): User
+        signupUser(input: SignupUserInput!): User
     }
 
-    input InitUserInput {
+    type Query {
+        getAllUsers: [User!]!
+        getUserById(input: UserId!): User!
+    }
+
+    input LoginUserInput {
+        email: String!
+        password: String!
+    }
+
+    input SignupUserInput {
         email: String!
         password: String!
     }
@@ -14,11 +24,8 @@ export const typeDefs = `#graphql
         email: String
     }
 
-
-
-    type Query {
-        allUsers: [User!]!
-        test: String!
+    input UserId {
+        id: ID!
     }
 
     type User {

@@ -1,15 +1,32 @@
 import prisma from '../../prisma/client';
+import { UserByIdInput } from '../../types';
 
 export const Query = {
-  allUsers: async () => {
-    const users = await prisma.user.findMany()
+  getAllUsers: async () => {
+    const users = await prisma.user.findMany();
 
     if (!users) {
-      throw new Error('🚫 NO USERS FOUND :::')
+      throw new Error('🚫 NO USERS FOUND :::');
     }
 
-    return users
+    return users;
   },
 
-  test: () => 'test'
+  getUserById: async (parent, args: UserByIdInput, context) => {
+    const id = Number(args.input.id);
+
+    const user = await prisma.user.findUnique({
+      where: {
+        id: id,
+      },
+    });
+
+    console.log('USER :::', user)
+
+    if (!user) {
+      throw new Error('🚫 NO USER FOUND :::');
+    }
+
+    return user;
+  },
 };

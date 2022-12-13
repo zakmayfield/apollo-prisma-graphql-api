@@ -1,4 +1,4 @@
-import { UserInterface } from './types';
+import { ServerContext } from './types';
 import { ApolloServer } from '@apollo/server';
 import * as dotenv from 'dotenv'
 import { startStandaloneServer } from '@apollo/server/standalone';
@@ -6,10 +6,6 @@ import { typeDefs } from './server/schema';
 import { resolvers } from './server/resolvers';
 
 dotenv.config()
-
-interface ServerContext {
-  user: UserInterface;
-}
 
 const server = new ApolloServer({
   typeDefs,

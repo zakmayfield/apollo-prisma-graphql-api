@@ -19,3 +19,13 @@ export interface RegisterUserInput {
     password: string;
   };
 }
+
+export interface UserByIdInput {
+  input: {
+    id: number;
+  }
+}
+
+export interface ServerContext {
+  user: UserInterface;
+}
